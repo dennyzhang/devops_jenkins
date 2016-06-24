@@ -9,14 +9,16 @@
 ## Description :
 ## --
 ## Created : <2015-07-03>
-## Updated: Time-stamp: <2016-06-24 17:51:22>
+## Updated: Time-stamp: <2016-06-24 17:52:58>
 ##-------------------------------------------------------------------
 download_file=${1?}
 working_dir=${2:-"/var/lib/jenkins/code/devops_jenkins"}
 enforce_refresh=${3:-""}
 
 [ -n "$enforce_refresh" ] || enforce_refresh="$ENFORCE_REFRESH"
-[ -n "$DOWNLOAD_PREFIX" ] || export DOWNLOAD_PREFIX="https://raw.githubusercontent.com/DennyZhang/devops_jenkins/tag_v1"
+[ -n "$DOWNLOAD_TAG_NAME" ] || export DOWNLOAD_TAG_NAME="tag_v1"
+
+export DOWNLOAD_PREFIX="https://raw.githubusercontent.com/DennyZhang/devops_jenkins/${DOWNLOAD_TAG_NAME}"
 
 download_file="monitor/serverspec_check.sh"
 bash_script="${working_dir}/${download_file}"
