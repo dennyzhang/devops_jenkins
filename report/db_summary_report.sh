@@ -5,7 +5,7 @@
 ## Description :
 ## --
 ## Created : <2016-02-23>
-## Updated: Time-stamp: <2016-06-24 16:47:37>
+## Updated: Time-stamp: <2016-06-24 17:36:43>
 ##-------------------------------------------------------------------
 
 ################################################################################################
@@ -19,7 +19,8 @@
 ##          export REFRESH_BASH="false"
 ################################################################################################
 . /etc/profile
-[ -n "$DOWNLOAD_PREFIX" ] || export DOWNLOAD_PREFIX="https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1"
+[ -n "$DOWNLOAD_TAG_NAME" ] || export DOWNLOAD_TAG_NAME="tag_v1"
+export DOWNLOAD_PREFIX="https://raw.githubusercontent.com/DennyZhang/devops_public/${DOWNLOAD_TAG_NAME}"
 if [ ! -f /var/lib/devops/refresh_common_library.sh ]; then
     [ -d /var/lib/devops/ ] || (sudo mkdir -p  /var/lib/devops/ && sudo chmod 777 /var/lib/devops)
     wget -O /var/lib/devops/refresh_common_library.sh "$DOWNLOAD_PREFIX/common_library/refresh_common_library.sh"
