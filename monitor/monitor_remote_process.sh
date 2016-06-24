@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2016-05-02>
-## Updated: Time-stamp: <2016-06-24 17:36:44>
+## Updated: Time-stamp: <2016-06-24 20:27:46>
 ##-------------------------------------------------------------------
 
 ################################################################################################
@@ -112,11 +112,11 @@ source_string "$env_parameters"
 [ -n "$SHOW_OS_UTILIZATION" ] || SHOW_OS_UTILIZATION=true
 [ -n "$UPDATE_SERVER_SCRIPT" ] || UPDATE_SERVER_SCRIPT=true
 
-# Input Parameters check
-check_list_fields "IP:TCP_PORT:STRING:STRING:STRING" "$process_list"
-
 process_list=$(string_strip_comments "$process_list")
 monitor_process_path="/tmp/monitor_process.sh"
+
+# Input Parameters check
+check_list_fields "IP:TCP_PORT:STRING:STRING:STRING" "$process_list"
 
 generate_monitor_script
 IFS=$'\n'
