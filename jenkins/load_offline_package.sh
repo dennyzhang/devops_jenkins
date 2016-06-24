@@ -2,7 +2,7 @@
 ##-------------------------------------------------------------------
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : load_offline_package.sh
 ## Author : Manley <daywbdb@qq.com>
@@ -10,7 +10,7 @@
 ## Description :
 ## --
 ## Created : <2016-01-06>
-## Updated: Time-stamp: <2016-06-24 09:02:51>
+## Updated: Time-stamp: <2016-06-24 15:54:21>
 ##-------------------------------------------------------------------
 
 ################################################################################################

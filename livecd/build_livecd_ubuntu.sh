@@ -2,14 +2,14 @@
 ##-------------------------------------------------------------------
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : build_livecd_ubuntu.sh
 ## Author : DennyZhang.com <denny@dennyzhang.com>
 ## Description :
 ## --
 ## Created : <2016-01-05>
-## Updated: Time-stamp: <2016-06-24 09:02:50>
+## Updated: Time-stamp: <2016-06-24 15:54:20>
 ##-------------------------------------------------------------------
 
 # How to build liveCD of ubuntu: http://customizeubuntu.com/ubuntu-livecd

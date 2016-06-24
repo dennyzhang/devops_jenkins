@@ -2,7 +2,7 @@
 ##-------------------------------------------------------------------
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : python_style_check.sh
 ## Author : DennyZhang.com <denny@dennyzhang.com>
@@ -10,7 +10,7 @@
 ##      Demo: http://jenkinscn.dennyzhang.com:18088/job/PythonCodeQualityCheck/
 ## --
 ## Created : <2016-04-25>
-## Updated: Time-stamp: <2016-06-24 09:24:59>
+## Updated: Time-stamp: <2016-06-24 15:54:22>
 ##-------------------------------------------------------------------
 ################################################################################################
 ## env variables:

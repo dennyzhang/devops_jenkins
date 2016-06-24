@@ -2,7 +2,7 @@
 ##-------------------------------------------------------------------
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-## https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+## https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : ssh_login_report.sh
 ## Author : DennyZhang.com <denny@dennyzhang.com>
@@ -13,7 +13,7 @@
 ##              sometimes no client ip tracked in auth.log
 ## --
 ## Created : <2016-04-03>
-## Updated: Time-stamp: <2016-06-24 09:02:49>
+## Updated: Time-stamp: <2016-06-24 15:54:19>
 ##-------------------------------------------------------------------
 ################################################################################################
 ## env variables:

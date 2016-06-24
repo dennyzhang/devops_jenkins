@@ -2,14 +2,14 @@
 ##-------------------------------------------------------------------
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT 
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : monitor_remote_process.sh
 ## Author : Denny <denny@dennyzhang.com>
 ## Description :
 ## --
 ## Created : <2016-05-02>
-## Updated: Time-stamp: <2016-06-24 09:02:50>
+## Updated: Time-stamp: <2016-06-24 15:54:20>
 ##-------------------------------------------------------------------
 
 ################################################################################################

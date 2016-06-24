@@ -2,14 +2,14 @@
 ##-------------------------------------------------------------------
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : effort_report.sh
 ## Author : DennyZhang.com <denny@dennyzhang.com>
 ## Description :
 ## --
 ## Created : <2015-10-13>
-## Updated: Time-stamp: <2016-06-24 09:28:32>
+## Updated: Time-stamp: <2016-06-24 15:54:20>
 ##-------------------------------------------------------------------
 
 ################################################################################################

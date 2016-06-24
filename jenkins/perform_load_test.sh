@@ -2,13 +2,13 @@
 ##-------------------------------------------------------------------
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : perform_load_test.sh
 ## Description :
 ## --
 ## Created : <2015-11-19>
-## Updated: Time-stamp: <2016-06-24 09:02:51>
+## Updated: Time-stamp: <2016-06-24 15:54:21>
 ##-------------------------------------------------------------------
 ################################################################################################
 . /etc/profile

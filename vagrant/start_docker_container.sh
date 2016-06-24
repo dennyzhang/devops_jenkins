@@ -2,14 +2,14 @@
 ##-------------------------------------------------------------------
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : start_docker_container.sh
 ## Author : DennyZhang.com <denny@dennyzhang.com>
 ## Description :
 ## --
 ## Created : <2015-05-28>
-## Updated: Time-stamp: <2016-06-24 09:02:48>
+## Updated: Time-stamp: <2016-06-24 15:54:19>
 ##-------------------------------------------------------------------
 ################################################################################################
 . /etc/profile

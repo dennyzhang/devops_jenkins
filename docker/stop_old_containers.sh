@@ -2,7 +2,7 @@
 ################################################################################################
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : stop_old_containers.sh
 ## Author: doungni
@@ -10,7 +10,7 @@
 ## Description : Stop old long-run docker containers, to save OS resource
 ## --
 ## Created : <2015-12-03>
-## Updated: Time-stamp: <2016-06-24 09:02:51>
+## Updated: Time-stamp: <2016-06-24 15:54:22>
 ##-------------------------------------------------------------------
 ################################################################################################
 # * By Jenkins config

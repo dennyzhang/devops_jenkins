@@ -2,14 +2,14 @@
 ################################################################################################
 ## @copyright 2016 DennyZhang.com
 ## Licensed under MIT
-##   https://raw.githubusercontent.com/DennyZhang/devops_public/2016-06-23/LICENSE
+##   https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v1/LICENSE
 ##
 ## File : collect_files.sh
 ## Author : Denny <denny@dennyzhang.com>
 ## Description : collect the files across servers, and transfer to specific destination
 ## --
 ## Created : <2016-04-14>
-## Updated: Time-stamp: <2016-06-24 09:02:51>
+## Updated: Time-stamp: <2016-06-24 15:54:21>
 ################################################################################################
 ## env variables:
 ##      server_list:
