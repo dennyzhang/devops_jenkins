@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>protractor_rest_server</name>
+          <description>REST API to accept GUI verification requests.
+http://${protractor_rest_server}/protractor_request
+</description>
+          <defaultValue>104.131.129.100:4445</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>protractor_testcase_js</name>
+          <description></description>
+          <defaultValue>describe(&apos;angularjs homepage todo list&apos;, function() {
+  it(&apos;should add a todo&apos;, function() {
+    browser.get(&apos;https://angularjs.org&apos;);
+
+    element(by.model(&apos;todoList.todoText&apos;)).sendKeys(&apos;write first protractor test&apos;);
+    element(by.css(&apos;[value=&quot;add&quot;]&apos;)).click();
+
+    var todoList = element.all(by.repeater(&apos;todo in todoList.todos&apos;));
+    expect(todoList.count()).toEqual(3);
+    expect(todoList.get(2).getText()).toEqual(&apos;write first protractor test&apos;);
+
+    // You wrote your first test, cross it off the list
+    todoList.get(2).element(by.css(&apos;input&apos;)).click();
+    var completedAmount = element.all(by.css(&apos;.done-true&apos;));
+    expect(completedAmount.count()).toEqual(2);
+
+    var working_dir = &quot;/opt/protractor/&quot;
+    var file = working_dir + &quot;test.png&quot;
+    var fs = require(&apos;fs&apos;);
+    browser.takeScreenshot().then(function (png) {
+            console.log(&apos;Writing file &apos; + file);
+            fs.writeFileSync(file, png, {encoding: &apos;base64&apos;}, console.log);
+        }, console.log);
+  });
+});</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>conf_js</name>
+          <description></description>
+          <defaultValue>exports.config = {
+  seleniumAddress: &apos;http://localhost:4444/wd/hub&apos;,
+  specs: [&apos;/opt/protractor/protractor.js&apos;]
+};</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>devops_library_branch_name</name>
+          <description></description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>env_parameters</name>
+          <description></description>
+          <defaultValue>export REMOVE_TMP_FILES=true</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v1&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_jenkins&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_jenkins/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_script &quot;gui_test/protractor_verify_gui_login.sh&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_jenkins/$bash_script&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
+      <room></room>
+      <startNotification>false</startNotification>
+      <notifySuccess>false</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
+      <bearychatCustomMessage></bearychatCustomMessage>
+    </jenkins.plugins.bearychat.BearychatNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</project>

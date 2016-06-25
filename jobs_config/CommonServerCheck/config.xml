@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.TextParameterDefinition>
+          <name>test_spec</name>
+          <description></description>
+          <defaultValue># Check tcp ports in jerkins container
+[&quot;28080&quot;,
+ # &quot;28000&quot;, 
+ # &quot;9000&quot;
+].each do |port|
+    describe port(port) do
+        it { should be_listening }
+    end
+end
+
+# # Check anonymous http links
+# %w(
+#    http://www.bing.com
+#    ).each do |url|
+#     describe command(&apos;curl -I -k &apos; + url + &apos; 2&gt;/dev/null | grep HTTP&apos;) do
+#       its(:stdout) { should match /HTTP\/1.1 200 OK/ }
+#     end
+# end
+
+# Check at least 2 GB free memory
+describe command(&quot;[ `free -ml | grep &apos;buffers/cache&apos; | awk -F&apos; &apos; &apos;{print $4}&apos;` -gt 2048 ]&quot;) do
+  its(:exit_status) { should eq 0 }
+end
+
+# check cpu loadavg in latest one min
+[&quot;172.17.0.1:22:10&quot;].each do |item|
+(ip, port, cpu_load) = item.split(&apos;:&apos;)
+    command_str = &quot;[ `ssh -o stricthostkeychecking=no -p %s root@%s cat /proc/loadavg | awk &apos;{print int($1+0.99)}&apos;` -lt %s ]&quot; \
+                % [port, ip, cpu_load]
+    describe command(command_str) do
+        its(:exit_status) { should eq 0 }
+    end
+end
+
+# check docker container number
+[&quot;172.17.0.1:22:11&quot;].each do |item|
+(ip, port, container_count) = item.split(&apos;:&apos;)
+    command_str = &quot;[ `ssh -o stricthostkeychecking=no -p %s root@%s docker ps | sed 1d | wc -l` -lt %s ]&quot; \
+                % [port, ip, container_count]
+    describe command(command_str) do
+        its(:exit_status) { should eq 0 }
+    end
+end</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H H/3 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v1&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_jenkins&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_jenkins/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_file=&quot;monitor/serverspec_check.sh&quot;
+download_script &quot;$download_file&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_jenkins/$download_file&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
+      <room></room>
+      <startNotification>false</startNotification>
+      <notifySuccess>false</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
+      <bearychatCustomMessage></bearychatCustomMessage>
+    </jenkins.plugins.bearychat.BearychatNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</project>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.TextParameterDefinition>
+          <name>test_spec</name>
+          <description></description>
+          <defaultValue># Check remote tcp port
+[&quot;123.57.240.189:2702&quot;, # aliyun
+ &quot;123.57.240.189:29995&quot;, # ssh reversel tunnel: ssh -p 29995 123.57.240.189
+ &quot;123.57.240.189:29997&quot;, # ssh reversel tunnel: ssh -p 29997 123.57.240.189
+ &quot;52.74.151.55:29995&quot;, # ssh reversel tunnel: ssh -p 29995 52.74.151.55
+ &quot;52.74.151.55:29997&quot;, # ssh reversel tunnel: ssh -p 29997 52.74.151.55
+ &quot;gitlabcn.dennyzhang.com:40054&quot;, # Gitlab sshd port
+ &quot;vpn.oscgc.com:6188&quot;, # VPN
+ # &quot;172.17.0.1:4445&quot;, # protractor rest
+ # &quot;172.17.0.1:4444&quot;, # protractor seleinum
+ ].each do |ip_port|
+    (ip, port) = ip_port.split(&apos;:&apos;)
+    describe command(&apos;nc -z -v -w5 %s %s 2&gt;&amp;1&apos; %[ip, port]) do
+      its(:stdout) { should match /Connection to.*succeeded/ }
+    end
+end
+
+# Check anonymous http links
+[&quot;http://jiracn.dennyzhang.com:40051/secure/Dashboard.jspa&quot;, # JIRA
+ &quot;http://confluencecn.dennyzhang.com:40052/dashboard.action&quot;, # Confluence
+ &quot;http://gitlabcn.dennyzhang.com:18088/users/sign_in&quot;, # Gitlab
+ &quot;http://jenkinscn.dennyzhang.com:18088&quot;, # Jenkins
+ &quot;http://repocn.dennyzhang.com:18088/image/checksum.txt&quot;, # HTTP repo,
+ &quot;http://www.dennyzhang.com&quot;, # blog
+ &quot;http://blogcn.dennyzhang.com:18088&quot;, # chinese blog
+ &quot;http://www.oscgc.com&quot;, # osc portal
+ &quot;http://old.oscgc.com&quot;,
+ &quot;http://wiki.oscgc.com/doku.php&quot;,
+ ].each do |url|
+    describe command(&apos;curl -I -k %s 2&gt;&amp;1&apos; %[url]) do
+      its(:stdout) { should match /HTTP\/1.1 200 OK/ }
+    end
+end
+
+
+# Check free disk: &gt;=10GB
+describe command(&quot;[ `ssh root@104.236.159.226 df -h /data | tail -n1 |awk -F&apos; &apos; &apos;{print $4}&apos; | awk -F&apos;G&apos; &apos;{print $1}&apos; | awk -F&apos;.&apos; &apos;{print $1}&apos;` -gt 10 ]&quot;) do
+  its(:exit_status) { should eq 0 }
+end
+
+# # check whether ssl certificate expire in 30 days
+# [&quot;fluigdata.com:443&quot;].each do |domain_port|
+#   describe command(&apos;echo | openssl s_client -connect &apos; + domain_port + \
+#                    &apos; 2&gt;/dev/null | openssl x509 -noout -subject -enddate -checkend 2592000&apos;) do
+#         its(:exit_status) { should eq 0 }
+#     end
+# end
+
+# # Check at least 2 GB free memory
+# describe command(&quot;[ `free -ml | grep &apos;buffers/cache&apos; | awk -F&apos; &apos; &apos;{print $4}&apos;` -gt 2048 ]&quot;) do
+#   its(:exit_status) { should eq 0 }
+# end</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H H/3 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v1&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_jenkins&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_jenkins/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_file=&quot;monitor/serverspec_check.sh&quot;
+download_script &quot;$download_file&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_jenkins/$download_file&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
+      <room></room>
+      <startNotification>false</startNotification>
+      <notifySuccess>false</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
+      <bearychatCustomMessage></bearychatCustomMessage>
+    </jenkins.plugins.bearychat.BearychatNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</project>
