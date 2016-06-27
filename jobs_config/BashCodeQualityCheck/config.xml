@@ -27,11 +27,6 @@ git@github.com:DennyZhang/devops_public.git,master
           <description></description>
           <defaultValue></defaultValue>
         </hudson.model.TextParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>devops_library_branch_name</name>
-          <description></description>
-          <defaultValue>master</defaultValue>
-        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>

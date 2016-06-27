@@ -58,11 +58,6 @@ http://${protractor_rest_server}/protractor_request
   specs: [&apos;/opt/protractor/protractor.js&apos;]
 };</defaultValue>
         </hudson.model.TextParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>devops_library_branch_name</name>
-          <description></description>
-          <defaultValue>master</defaultValue>
-        </hudson.model.StringParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>env_parameters</name>
           <description></description>

@@ -26,11 +26,6 @@
           <defaultValue>master</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>working_dir</name>
-          <description></description>
-          <defaultValue>/var/lib/jenkins/code/digitalocean</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
           <name>test_command</name>
           <description></description>
           <defaultValue>bash -e /var/lib/jenkins/code/master/devops_jenkins/chef/kitchen_raw_test.sh</defaultValue>
@@ -64,11 +59,6 @@ export TEST_KITCHEN_YAML=.kitchen.digitalocean_yml
 export DIGITALOCEAN_FLAVOR=8gb
 export APP_BRANCH_NAME=sprint-29</defaultValue>
         </hudson.model.TextParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>devops_library_branch_name</name>
-          <description></description>
-          <defaultValue>master</defaultValue>
-        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
