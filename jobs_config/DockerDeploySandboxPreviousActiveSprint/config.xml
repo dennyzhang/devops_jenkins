@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>git_repo_url</name>
+          <description>Repo url for chef source code.
+</description>
+          <defaultValue>git@github.com:DennyZhang/chef_community_cookbooks.git</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>branch_name</name>
+          <description>branch name for the chef cookbook code.</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>test_command</name>
+          <description></description>
+          <defaultValue>bash -e /var/lib/jenkins/code/master/devops_jenkins/chef/kitchen_raw_test.sh</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>cookbook_list</name>
+          <description>What cookbooks to test. Separated by whitespace.
+
+If &quot;ALL&quot;, all cookbooks under the given directory will be tested. Otherwise perform tests for given cookbooks.</description>
+          <defaultValue>sandbox-test</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>env_parameters</name>
+          <description></description>
+          <defaultValue>export TEST_KITCHEN_YAML=.kitchen.yml
+
+export KEEP_FAILED_INSTANCE=false
+export KEEP_INSTANCE=false
+export DOCKER_IMAGE_URL=http://172.17.0.1:80/my_sandbox_latest.tar.gz
+export DOCKER_PORT_FORWARD_PREFIX=50
+export CLEAN_START=false
+export APP_BRANCH_NAME=sprint-34
+export FRAMEWORK_BRANCH_NAME=sprint-34</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>true</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v1&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_jenkins&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_jenkins/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_file=&quot;chef/kitchen_test_cookbooks.sh&quot;
+download_script &quot;$download_file&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_jenkins/$download_file&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+  </buildWrappers>
+</project>
