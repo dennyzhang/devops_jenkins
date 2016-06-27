@@ -8,7 +8,7 @@
 ## Description :
 ## --
 ## Created : <2015-10-27>
-## Updated: Time-stamp: <2016-06-24 17:36:45>
+## Updated: Time-stamp: <2016-06-27 16:01:25>
 ##-------------------------------------------------------------------
 ################################################################################################
 ## env variables:
@@ -37,18 +37,9 @@ function shell_exit() {
     exit $errcode
 }
 
-########################################################
-##Function Name:    check_jenkins_job_status
-##Description:      Check the status of designated jenkins job
-##Input:            jenkins_job_status_files
-##Output:           0:success , 1:failed.
-########################################################
 function check_jenkins_job_status()
 {
-    # The status flag file list for all the jenkins jobs，multiple files, separated by spaces
     local status_files=${1:-"CommonServerCheck.flag"}
-
-    # If status of any one flag file is not OK,the flag value is false, otherwise is true.
     local check_flag=true
 
     for flag_file_name in ${status_files[*]}; do
