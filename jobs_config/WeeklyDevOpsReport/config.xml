@@ -17,7 +17,7 @@
         <hudson.model.StringParameterDefinition>
           <name>git_repo_url</name>
           <description></description>
-          <defaultValue>git@gitlabcn.dennyzhang.com:devops/devops_effort.git</defaultValue>
+          <defaultValue>git@bitbucket.org:lrpdevops/devops_effort.git</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>branch_name</name>

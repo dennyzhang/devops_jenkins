@@ -23,8 +23,8 @@
  &quot;123.57.240.189:29997&quot;, # ssh reversel tunnel: ssh -p 29997 123.57.240.189
  &quot;52.74.151.55:29995&quot;, # ssh reversel tunnel: ssh -p 29995 52.74.151.55
  &quot;52.74.151.55:29997&quot;, # ssh reversel tunnel: ssh -p 29997 52.74.151.55
- &quot;gitlabcn.dennyzhang.com:40054&quot;, # Gitlab sshd port
- &quot;vpn.oscgc.com:6188&quot;, # VPN
+ # &quot;gitlabcn.dennyzhang.com:40054&quot;, # Gitlab sshd port
+ # &quot;vpn.oscgc.com:6188&quot;, # VPN
  # &quot;172.17.0.1:4445&quot;, # protractor rest
  # &quot;172.17.0.1:4444&quot;, # protractor seleinum
  ].each do |ip_port|
@@ -37,11 +37,8 @@ end
 # Check anonymous http links
 [&quot;http://jiracn.dennyzhang.com:40051/secure/Dashboard.jspa&quot;, # JIRA
  &quot;http://confluencecn.dennyzhang.com:40052/dashboard.action&quot;, # Confluence
- &quot;http://gitlabcn.dennyzhang.com:18088/users/sign_in&quot;, # Gitlab
  &quot;http://jenkinscn.dennyzhang.com:18088&quot;, # Jenkins
  &quot;http://repocn.dennyzhang.com:18088/image/checksum.txt&quot;, # HTTP repo,
- &quot;http://www.dennyzhang.com&quot;, # blog
- &quot;http://blogcn.dennyzhang.com:18088&quot;, # chinese blog
  &quot;http://www.oscgc.com&quot;, # osc portal
  &quot;http://old.oscgc.com&quot;,
  &quot;http://wiki.oscgc.com/doku.php&quot;,

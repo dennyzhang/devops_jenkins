@@ -23,10 +23,11 @@
 172.17.0.2:22:root
 # Atlassian: JIRA,Confluence;
 172.17.0.3:22:root
+
 # Gitlab
-172.17.0.4:22:root
+# 172.17.0.4:22:root
 # blog
-172.17.0.5:22:root
+#172.17.0.5:22:root
 
 # aliyun
 123.57.240.189:2702:root
