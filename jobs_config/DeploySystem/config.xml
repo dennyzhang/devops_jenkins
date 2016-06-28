@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Deploy cluster env by ssh + chef.&#xd;
+</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.TextParameterDefinition>
+          <name>server_list</name>
+          <description></description>
+          <defaultValue># node1: couchbase
+172.17.0.2:22
+# node2: elasticsearch
+172.17.0.3:22
+# node3: app
+172.17.0.4:22
+# node4: couchbase
+172.17.0.5:22
+# node5: elasticsearch
+172.17.0.6:22
+# node6: app
+172.17.0.7:22
+</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>deploy_run_list</name>
+          <description></description>
+          <defaultValue>&quot;recipe[apt::default]&quot;</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>init_run_list</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>chef_json</name>
+          <description></description>
+          <defaultValue>{
+ &quot;common_basic&quot;:
+        {
+        # service hosts: deploy service to which host
+        &quot;couchbase_hosts&quot;:[&quot;172.17.0.1&quot;, &quot;172.17.0.2&quot;],
+        &quot;elasticsearch_hosts&quot;:[&quot;172.17.0.3&quot;, &quot;171.17.0.4&quot;],
+        &quot;xxx_hosts&quot;:[&quot;172.17.0.5&quot;, &quot;172.17.0.6&quot;],
+        &quot;haproxy_hosts&quot;:[&quot;172.17.0.1&quot;,&quot;172.17.0.2&quot;],
+        &quot;nagios_server&quot;:&quot;172.17.0.1&quot;,
+
+        # specify branch name
+        &quot;app_branch_name&quot;:&quot;master&quot;,
+        &quot;devops_branch_name&quot;:&quot;master&quot;,
+
+         &quot;package_url&quot;:&quot;http://172.17.0.1:18000&quot;,
+
+        # tcp ports
+        &quot;haproxy_port&quot;:&quot;80&quot;,
+        &quot;haproxy_ssl_port&quot;:&quot;443&quot;,
+        &quot;app_http_port&quot;:&quot;80&quot;,
+        &quot;app_https_port&quot;:&quot;443&quot;
+       },
+ &quot;couchbase_xxx&quot;:
+        {&quot;memory_quota_mb&quot;:&quot;16384&quot;},
+ &quot;elasticsearch_xxx&quot;:
+        {&quot;allocated_memory_mb&quot;:&quot;16384&quot;,
+        &quot;audit_allocated_memory_mb&quot;:&quot;1024&quot;,
+        &quot;enable_audit_elasticsearch&quot;:&quot;false&quot;,
+        &quot;elasticsearch_clustername&quot;:&quot;my-es-cluster&quot;,        
+        &quot;elasticsearch_audit_clustername&quot;:&quot;my-es-audit-cluster&quot;
+        },
+  &quot;app_xxx&quot;:
+        {&quot;maxSimultaneousThreads&quot;:&quot;8&quot;,
+        &quot;maxTotalThreads&quot;:&quot;64&quot;,
+        &quot;cb_bucket_retries&quot;:&quot;10&quot;,
+        &quot;cb_bucket_retryinterval&quot;:&quot;10000&quot;,
+        &quot;cb_bucket_timeout&quot;:&quot;100000&quot;,
+        &quot;cb_replicas_count&quot;:&quot;2&quot;,
+        &quot;elasticsearch_replicas_count&quot;:&quot;2&quot;,
+        &quot;elasticsearch_shards_count&quot;:&quot;5&quot;,
+        &quot;elasticsearch_audit_replicas_count&quot;:&quot;2&quot;,
+        &quot;elasticsearch_audit_shards_count&quot;:&quot;5&quot;,
+        &quot;enable_slack_sync&quot;:&quot;false&quot;,
+        &quot;session_bucket_quota_in_mb&quot;:&quot;1024&quot;,
+        &quot;staging_bucket_quota_in_mb&quot;:&quot;2048&quot;,
+        &quot;master_bucket_quota_in_mb&quot;:&quot;10240&quot;,
+        &quot;mgmt_timeout&quot;:&quot;900000&quot;,
+        &quot;max_timeout&quot;:&quot;960000&quot;,
+        &quot;xxx_java_opts&quot;:&quot;-Xms10240m -Xmx10240m&quot;,
+        &quot;mincomputationpoolsize&quot;:&quot;16&quot;,
+        &quot;whether_flushdatabaseonconnect&quot;:&quot;$whether_flushdatabaseonconnect&quot;,
+        &quot;whether_populatefakedata&quot;:&quot;false&quot;,
+        &quot;whether_populaterealdata&quot;:&quot;false&quot;,
+        &quot;whether_populategenerateddata&quot;:&quot;false&quot;
+        }
+}</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>check_command</name>
+          <description>How to check system, after deployment or upgrade.</description>
+          <defaultValue>cat /root/chef_update/report.txt</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>env_parameters</name>
+          <description></description>
+          <defaultValue>export KILL_RUNNING_CHEF_UPDATE=false
+export CODE_SH=&apos;/root/git_update.sh&apos;
+export code_dir=&apos;/root/chef&apos;
+export git_repo_url=git@gitlabcn.dennyzhang.com:devops/chef_community_cookbooks.git</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v1&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_jenkins&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_jenkins/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_file=&quot;jenkins/deploy_cluster.sh&quot;
+download_script &quot;$download_file&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_jenkins/$download_file&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
+      <room></room>
+      <startNotification>false</startNotification>
+      <notifySuccess>false</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
+      <bearychatCustomMessage></bearychatCustomMessage>
+    </jenkins.plugins.bearychat.BearychatNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</project>

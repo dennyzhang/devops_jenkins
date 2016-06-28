@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description># Create docker network, so that container&apos;s ip persist &#xd;
+docker network create --subnet=172.18.0.0/16 longruncluster &#xd;
+&#xd;
+cat &gt; /root/provision_longruncluster.sh &lt;&lt; EOF &#xd;
+#!/bin/bash -e &#xd;
+docker stop kitchen-cluster-node1 kitchen-cluster-node2 kitchen-cluster-node3 &#xd;
+docker rm kitchen-cluster-node1 kitchen-cluster-node2 kitchen-cluster-node3 &#xd;
+&#xd;
+rm -rf /data/docker/longruncluster/ &amp;&amp; mkdir -p /data/docker/longruncluster/couchbase1 /data/docker/longruncluster/couchbase2 /data/docker/longruncluster/couchbase3 &#xd;
+&#xd;
+docker run -t -d -h kitchen-cluster-node1 --name kitchen-cluster-node1 --privileged -p 5122:22  --net=longruncluster --ip 172.18.0.22 -v /data/docker/longruncluster/couchbase1:/opt/couchbase denny/aio:latest /usr/sbin/sshd -D &#xd;
+docker run -t -d -h kitchen-cluster-node2 --name kitchen-cluster-node2 --privileged -p 5123:22  --net=longruncluster --ip 172.18.0.23  -v /data/docker/longruncluster/couchbase2:/opt/couchbase denny/aio:latest /usr/sbin/sshd -D &#xd;
+docker run -t -d -h kitchen-cluster-node3 --name kitchen-cluster-node3 --privileged -p 5124:22  --net=longruncluster --ip 172.18.0.24  -v /data/docker/longruncluster/couchbase3:/opt/couchbase denny/aio:latest /usr/sbin/sshd -D &#xd;
+&#xd;
+docker exec -it kitchen-cluster-node1 wget -O /root/devops_provision_os.sh https://raw.githubusercontent.com/DennyZhang/devops_public/master/chef/devops_provision_os.sh &#xd;
+docker exec -it kitchen-cluster-node2 wget -O /root/devops_provision_os.sh https://raw.githubusercontent.com/DennyZhang/devops_public/master/chef/devops_provision_os.sh &#xd;
+docker exec -it kitchen-cluster-node3 wget -O /root/devops_provision_os.sh https://raw.githubusercontent.com/DennyZhang/devops_public/master/chef/devops_provision_os.sh &#xd;
+&#xd;
+docker exec -it kitchen-cluster-node1 bash /root/devops_provision_os.sh &#xd;
+docker exec -it kitchen-cluster-node2 bash /root/devops_provision_os.sh &#xd;
+docker exec -it kitchen-cluster-node3 bash /root/devops_provision_os.sh &#xd;
+&#xd;
+EOF &#xd;
+&#xd;
+bash /root/provision_longruncluster.sh &#xd;
+&#xd;
+# For initial setup: &#xd;
+#     1. Run for first time, set initialize_system true,  STOP_CONTAINER false &#xd;
+#     2. Run for second time, with everything default</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.TextParameterDefinition>
+          <name>server_list</name>
+          <description></description>
+          <defaultValue># server_ip:ssh_port
+172.17.0.1:5122
+172.17.0.1:5123
+172.17.0.1:5124</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>initialize_system</name>
+          <description></description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>app_branch_name</name>
+          <description></description>
+          <defaultValue>sprint-32</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>framework_branch_name</name>
+          <description></description>
+          <defaultValue>sprint-32</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>devops_branch_name</name>
+          <description></description>
+          <defaultValue>sprint-32</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>elasticsearch_clustername</name>
+          <description></description>
+          <defaultValue>kitchen-cluster-mdm</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>deploy_run_list</name>
+          <description></description>
+          <defaultValue>&quot;recipe[mdm-cluster::default]&quot;</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>chef_json</name>
+          <description></description>
+          <defaultValue>{
+ &quot;common_basic&quot;:
+        {
+        # service hosts: deploy service to which host
+        &quot;couchbase_hosts&quot;:[&quot;kitchen-cluster-node1&quot;, &quot;kitchen-cluster-node2&quot;],
+        &quot;elasticsearch_hosts&quot;:[&quot;kitchen-cluster-node1&quot;, &quot;kitchen-cluster-node2&quot;],
+        &quot;xxx_hosts&quot;:[&quot;kitchen-cluster-node2&quot;, &quot;kitchen-cluster-node3&quot;],
+        &quot;haproxy_hosts&quot;:[&quot;kitchen-cluster-node1&quot;,&quot;kitchen-cluster-node2&quot;],
+        &quot;nagios_server&quot;:&quot;kitchen-cluster-node3&quot;,
+
+        # specify branch name
+        &quot;app_branch_name&quot;:&quot;$app_branch_name&quot;,
+        &quot;framework_branch_name&quot;:&quot;$framework_branch_name&quot;,
+        &quot;devops_branch_name&quot;:&quot;$devops_branch_name&quot;,
+
+         &quot;package_url&quot;:&quot;http://172.17.0.1.:80&quot;,
+
+        # tcp ports
+        &quot;haproxy_port&quot;:&quot;8182&quot;,
+        &quot;haproxy_ssl_port&quot;:&quot;443&quot;,
+        &quot;app_http_port&quot;:&quot;8080&quot;,
+        &quot;app_https_port&quot;:&quot;8443&quot;
+       },
+ &quot;couchbase_xxx&quot;:
+        {&quot;memory_quota_mb&quot;:&quot;2048&quot;},
+ &quot;elasticsearch_xxx&quot;:
+        {&quot;allocated_memory_mb&quot;:&quot;512&quot;,
+        &quot;audit_allocated_memory_mb&quot;:&quot;256&quot;,
+        &quot;enable_audit_elasticsearch&quot;:&quot;true&quot;,
+        &quot;elasticsearch_clustername&quot;:&quot;$elasticsearch_clustername&quot;,        
+        &quot;elasticsearch_audit_clustername&quot;:&quot;$elasticsearch_clustername-audit&quot;
+        },
+  &quot;app_xxx&quot;:
+        {&quot;maxSimultaneousThreads&quot;:&quot;8&quot;,
+        &quot;maxTotalThreads&quot;:&quot;64&quot;,
+        &quot;cb_bucket_retries&quot;:&quot;10&quot;,
+        &quot;cb_bucket_retryinterval&quot;:&quot;10000&quot;,
+        &quot;cb_bucket_timeout&quot;:&quot;100000&quot;,
+        &quot;session_bucket_quota_in_mb&quot;:&quot;100&quot;,
+        &quot;staging_bucket_quota_in_mb&quot;:&quot;512&quot;,
+        &quot;master_bucket_quota_in_mb&quot;:&quot;640&quot;,
+        &quot;mgmt_timeout&quot;:&quot;900000&quot;,
+        &quot;max_timeout&quot;:&quot;960000&quot;,
+        &quot;xxx_java_opts&quot;:&quot;-Xms1024m -Xmx1024m&quot;,
+        &quot;whether_flushdatabaseonconnect&quot;:&quot;$initialize_system&quot;,
+        &quot;whether_populatefakedata&quot;:&quot;$initialize_system&quot;,
+        &quot;whether_populaterealdata&quot;:&quot;$initialize_system&quot;,
+        &quot;whether_populategenerateddata&quot;:&quot;$initialize_system&quot;
+        }
+}</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>ssh_private_key</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>env_parameters</name>
+          <description></description>
+          <defaultValue>export STOP_CONTAINER=true
+export KILL_RUNNING_CHEF_UPDATE=false
+
+export git_repo_url=&quot;git@github.com:TOTVS/mdmdevops.git&quot;
+export CODE_SH=&apos;/root/git_update.sh&apos;
+export code_dir=&apos;/root/chef&apos;
+export START_COMMAND=&quot;ssh root@172.17.0.1 docker start kitchen-cluster-node1 kitchen-cluster-node2 kitchen-cluster-node3&quot;
+export STOP_COMMAND=&quot;ssh root@172.17.0.1 docker stop kitchen-cluster-node1 kitchen-cluster-node2 kitchen-cluster-node3&quot;
+
+export POST_START_COMMAND=&quot;sleep 5;
+ssh -p 5122 root@172.17.0.1 &apos;cp /opt/hosts /etc/hosts; true&apos;;
+ssh -p 5123 root@172.17.0.1 &apos;cp /opt/hosts /etc/hosts; true&apos;;
+ssh -p 5124 root@172.17.0.1 &apos;cp /opt/hosts /etc/hosts; true&apos;;
+
+ssh -p 5122 root@172.17.0.1 &apos;/root/manage_all_services.sh start couchbase-server,elasticsearch&apos;;
+sleep 5;
+ssh -p 5123 root@172.17.0.1 &apos;/root/manage_all_services.sh start couchbase-server,elasticsearch&apos;;
+sleep 5;
+ssh -p 5124 root@172.17.0.1 &apos;/root/manage_all_services.sh start couchbase-server,elasticsearch&apos;;
+
+sleep 10;
+
+ssh -p 5122 root@172.17.0.1 &apos;/root/manage_all_services.sh start mdm || true&apos;;
+sleep 15;
+ssh -p 5123 root@172.17.0.1 &apos;/root/manage_all_services.sh start mdm || true&apos;;
+sleep 15;
+ssh -p 5124 root@172.17.0.1 &apos;/root/manage_all_services.sh start mdm || true&apos;;
+
+ssh -p 5122 root@172.17.0.1 &apos;/root/manage_all_services.sh status couchbase-server,elasticsearch,mdm&apos;;
+ssh -p 5123 root@172.17.0.1 &apos;/root/manage_all_services.sh status couchbase-server,elasticsearch,mdm&apos;;
+ssh -p 5124 root@172.17.0.1 &apos;/root/manage_all_services.sh status couchbase-server,elasticsearch,mdm&apos;;
+&quot;
+
+export PRE_STOP_COMMAND=&quot;
+ssh -p 5122 root@172.17.0.1 &apos;cat /root/chef_update/report.txt; /root/manage_all_services.sh stop mdm,elasticsearch,couchbase-server&apos;;
+ssh -p 5123 root@172.17.0.1 &apos;cat /root/chef_update/report.txt; /root/manage_all_services.sh stop mdm,elasticsearch,couchbase-server&apos;;
+ssh -p 5124 root@172.17.0.1 &apos;cat /root/chef_update/report.txt; /root/manage_all_services.sh stop mdm,elasticsearch,couchbase-server&apos;;
+&quot;</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v1&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_jenkins&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_jenkins/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_file=&quot;chef/deploy_cluster.sh&quot;
+download_script &quot;$download_file&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_jenkins/$download_file&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
+      <room></room>
+      <startNotification>false</startNotification>
+      <notifySuccess>false</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
+      <bearychatCustomMessage></bearychatCustomMessage>
+    </jenkins.plugins.bearychat.BearychatNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</project>

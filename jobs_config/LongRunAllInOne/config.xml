@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>cat &gt; /root/provision_longrunaio.sh &lt;&lt;EOF &#xd;
+#!/bin/bash -e &#xd;
+docker stop longrun-aio &#xd;
+docker rm longrun-aio &#xd;
+rm -rf /data/docker/longrunaio/couchbase &amp;&amp; mkdir -p /data/docker/longrunaio/couchbase &#xd;
+&#xd;
+docker run -t -d --privileged -h longrunaio --name longrun-aio -p 7022:22 -v /data/docker/longrunaio/couchbase:/opt/couchbase denny/aio:latest /usr/sbin/sshd -D &#xd;
+&#xd;
+docker exec -it longrun-aio wget -O /root/devops_provision_os.sh https://raw.githubusercontent.com/DennyZhang/devops_public/master/chef/devops_provision_os.sh &#xd;
+&#xd;
+docker exec -it longrun-aio bash /root/devops_provision_os.sh &#xd;
+EOF &#xd;
+&#xd;
+bash /root/provision_longrunaio.sh &#xd;
+&#xd;
+# For the first time, run deployment with whether_flushdatabaseonconnect true. For the following, run with false</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>ssh_server_ip</name>
+          <description></description>
+          <defaultValue>172.17.0.1</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>ssh_port</name>
+          <description></description>
+          <defaultValue>7022</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>project_name</name>
+          <description></description>
+          <defaultValue>all-in-one</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>devops_branch_name</name>
+          <description></description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>chef_json</name>
+          <description></description>
+          <defaultValue>{
+       &quot;run_list&quot;: [&quot;recipe[all-in-one]&quot;], 
+       &quot;common_basic&quot;:
+                {&quot;app_branch_name&quot;: &quot;sprint-32&quot;,
+                 &quot;framework_branch_name&quot;: &quot;sprint-32&quot;,
+                 &quot;package_url&quot;:&quot;http://172.17.0.2:18000&quot;},
+        &quot;os_basic&quot;:
+                {&quot;enable_firewall&quot;: &quot;0&quot;},
+         &quot;elasticsearch_mdm&quot;:
+                {&quot;elasticsearch_clustername&quot;: &quot;longaio-mdm&quot;},
+        &quot;all_in_one&quot;:
+                {&quot;mgmt_timeout&quot;: &quot;900000&quot;,
+                &quot;max_timeout&quot;: &quot;960000&quot;
+                },
+        &quot;app_mdm&quot;:
+                {&quot;cb_bucket_retries&quot;: &quot;10&quot;,
+                &quot;cb_bucket_retryinterval&quot;: &quot;10000&quot;,
+                &quot;cb_bucket_timeout&quot;: &quot;100000&quot;,
+                &quot;whether_flushdatabaseonconnect&quot;: &quot;false&quot;
+                },
+        &quot;nagois_mdm&quot;:
+                {&quot;mdm_http_port&quot;: &quot;8443&quot;,
+                &quot;enable_nagios_check&quot;: &quot;0&quot;,
+                &quot;enable_gui_check&quot;: &quot;0&quot;
+                }
+}</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>check_command</name>
+          <description></description>
+          <defaultValue>sleep 10; service myservice status</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>env_parameters</name>
+          <description></description>
+          <defaultValue>export STOP_CONTAINER=true
+export KILL_RUNNING_CHEF_UPDATE=false
+export START_COMMAND=&quot;docker start longrun-aio&quot;
+export POST_START_COMMAND=&quot;service couchbase-server start; service elasticsearch start; service mdm start; true&quot;
+export PRE_STOP_COMMAND=&quot;service mdm stop; service elasticsearch stop; service couchbase-server start; true&quot;
+export STOP_COMMAND=&quot;docker stop longrun-aio&quot;
+export git_repo_url=&quot;git@github.com:DennyZhang/chef_community_cookbooks.git&quot;
+export code_dir=&quot;/root/chef/&quot;
+export CODE_SH=&apos;/root/git_update.sh&apos;</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v1&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_jenkins&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_jenkins/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_file=&quot;chef/longrun_allinone.sh&quot;
+download_script &quot;$download_file&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_jenkins/$download_file&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
+      <room></room>
+      <startNotification>false</startNotification>
+      <notifySuccess>false</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
+      <bearychatCustomMessage></bearychatCustomMessage>
+    </jenkins.plugins.bearychat.BearychatNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</project>
