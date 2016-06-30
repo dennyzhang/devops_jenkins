@@ -26,10 +26,10 @@
 # Inhouse server
 172.17.0.1:22:root
 
-# osc_shadowsock Singapore EC2: www.dennyzhang.com
+# server1
 52.74.151.55:2702:ubuntu
 
-# osc US EC2: www.oscgc.com
+# server2
 52.9.159.178:22:centos</defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>

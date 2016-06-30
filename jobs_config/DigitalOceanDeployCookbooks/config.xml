@@ -28,7 +28,7 @@
         <hudson.model.StringParameterDefinition>
           <name>test_command</name>
           <description></description>
-          <defaultValue>bash -e /var/lib/jenkins/code/master/devops_jenkins/chef/kitchen_raw_test.sh</defaultValue>
+          <defaultValue>curl https://raw.githubusercontent.com/DennyZhang/devops_jenkins/tag_v1/chef/kitchen_raw_test.sh | bash</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>cookbook_list</name>
