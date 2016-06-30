@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2015-07-03>
-## Updated: Time-stamp: <2016-06-30 09:30:34>
+## Updated: Time-stamp: <2016-06-30 09:36:58>
 ##-------------------------------------------------------------------
 ################################################################################################
 ## env variables:
@@ -109,7 +109,8 @@ function shell_exit() {
 
 ########################################################################
 [ -n "$working_dir" ] || working_dir="/var/lib/jenkins/code/$JOB_NAME"
-[ -n "$GIT_BRANCH" ] || branch_name="$GIT_BRANCH"
+# $GIT_BRANCH environment variable override $branch_name
+[ -z "$GIT_BRANCH" ] || branch_name="$GIT_BRANCH"
 # Build Repo
 git_repo=$(parse_git_repo "$git_repo_url")
 code_dir=$working_dir/$branch_name/$git_repo
