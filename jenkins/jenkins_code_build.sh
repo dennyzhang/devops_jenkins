@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2015-07-03>
-## Updated: Time-stamp: <2016-06-24 17:36:46>
+## Updated: Time-stamp: <2016-06-30 09:30:34>
 ##-------------------------------------------------------------------
 ################################################################################################
 ## env variables:
@@ -22,6 +22,7 @@
 ##           export SKIP_COPY=false
 ##           export IS_PACK_FILE=false
 ##           export IS_GENERATE_SHA1SUM=false
+##           export repo_dir=/var/www/repo
 ##           export working_dir=/var/lib/jenkins/code/build
 ##      build_command: make
 ################################################################################################
@@ -108,7 +109,7 @@ function shell_exit() {
 
 ########################################################################
 [ -n "$working_dir" ] || working_dir="/var/lib/jenkins/code/$JOB_NAME"
-
+[ -n "$GIT_BRANCH" ] || branch_name="$GIT_BRANCH"
 # Build Repo
 git_repo=$(parse_git_repo "$git_repo_url")
 code_dir=$working_dir/$branch_name/$git_repo
