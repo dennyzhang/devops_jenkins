@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2015-08-05>
-## Updated: Time-stamp: <2016-06-24 17:36:44>
+## Updated: Time-stamp: <2016-07-01 12:56:46>
 ##-------------------------------------------------------------------
 ################################################################################################
 ## env variables:
@@ -149,7 +149,12 @@ else
     if [ -n "$changed_file_list" ]; then
         echo -e "\n\n========== git diff ${old_sha} ${new_sha}\n"
         echo -e "\n\n========== $(git_http_compare_link "$git_repo_url" "$old_sha" "$new_sha")\n"
-        echo -e "========== ERROR file changed: \n$(echo "$changed_file_list" | tr ' ' '\n')\n"
+        for file in $changed_file_list; do
+            git config --global core.pager ""
+            command="git diff $old_sha $new_sha $file"
+            echo -e "========== ERROR file changed: $file. Run: $command"
+            eval "$command"
+        done
         exit 1
     fi
 fi
