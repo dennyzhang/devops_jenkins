@@ -9,10 +9,8 @@
 ## Description :
 ## --
 ## Created : <2016-04-13>
-## Updated: Time-stamp: <2016-07-04 21:39:51>
+## Updated: Time-stamp: <2016-07-04 22:11:21>
 ##-------------------------------------------------------------------
-
-################################################################################################
 ## env variables:
 ##       server_list: ip-1
 ##                    ip-2
@@ -63,6 +61,10 @@ cat > "$tmp_file" <<EOF
 $command_list
 EOF
 
-echo "========== Parallel run commands by ansible"
-ansible all -i "$ansible_host_file" -m shell -a "bash $tmp_file" -u "$SSH_USERNAME" "--private-key=$ssh_key_file"
+cat > "$ansible_host_file" <<EOF
+$server_list
+EOF
+
+echo "========== Parallel run command By Ansible"
+ansible all -i "$ansible_host_file" -m script -a "$tmp_file" -u "$SSH_USERNAME" "--private-key=$ssh_key_file"
 ## File : run_command_on_servers.sh ends
