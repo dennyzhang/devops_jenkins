@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2016-04-13>
-## Updated: Time-stamp: <2016-07-04 22:11:21>
+## Updated: Time-stamp: <2016-07-04 22:12:40>
 ##-------------------------------------------------------------------
 ## env variables:
 ##       server_list: ip-1
@@ -65,6 +65,8 @@ cat > "$ansible_host_file" <<EOF
 $server_list
 EOF
 
-echo "========== Parallel run command By Ansible"
+echo "========== Parallel run command By Ansible:"
+cat "$tmp_file"
+
 ansible all -i "$ansible_host_file" -m script -a "$tmp_file" -u "$SSH_USERNAME" "--private-key=$ssh_key_file"
 ## File : run_command_on_servers.sh ends
