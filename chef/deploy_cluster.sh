@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2015-07-03>
-## Updated: Time-stamp: <2016-06-24 17:33:01>
+## Updated: Time-stamp: <2016-07-06 16:57:18>
 ##-------------------------------------------------------------------
 ################################################################################################
 ## env variables:
@@ -39,7 +39,7 @@
 ##                     {"hosts": ["devops-cluster-backend-1","devops-cluster-backend-2", "devops-cluster-frontend-1","devops-cluster-frontend-2"]}}
 ##      }
 ##
-##       check_command: enforce_all_nagios_check.sh "check_.*_log|check_.*_cpu"
+##       check_command: enforce_all_nagios_check.sh -s "check_.*_log|check_.*_cpu"
 ##       devops_branch_name: dev
 ##       ssh_private_key: XXX
 ##           # ssh id_rsa private key to login servers without password

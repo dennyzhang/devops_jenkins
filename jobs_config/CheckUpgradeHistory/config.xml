@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Check All Services in all servers</description>
+  <description>Check all upgrade history for certain servers, show detail changeset for each upgrade.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>
@@ -24,7 +24,7 @@
         <hudson.model.TextParameterDefinition>
           <name>command_list</name>
           <description></description>
-          <defaultValue>bash /opt/devops/bin/manage_all_services.sh status couchbase-server,elasticsearch,apache2</defaultValue>
+          <defaultValue>cat /root/chef_update/history.txt</defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>env_parameters</name>

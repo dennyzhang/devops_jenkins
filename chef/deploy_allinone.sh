@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2015-08-05>
-## Updated: Time-stamp: <2016-06-24 17:31:32>
+## Updated: Time-stamp: <2016-07-06 16:57:14>
 ################################################################################################
 ## Purpose: General function to deploy all-in-one env by chef
 ##
@@ -24,7 +24,7 @@
 ##               "install_audit":"1"}
 ##             }
 ##       chef_client_rb: cookbook_path ["/root/test/dev/mydevops/cookbooks","/root/test/dev/mydevops/community_cookbooks"]
-##       check_command: enforce_all_nagios_check.sh "check_.*_log|check_.*_cpu"
+##       check_command: enforce_all_nagios_check.sh -s "check_.*_log|check_.*_cpu"
 ##       devops_branch_name: dev
 ##       env_parameters:
 ##             export STOP_CONTAINER=false

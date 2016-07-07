@@ -19,21 +19,11 @@
           <description></description>
           <defaultValue># Columns Explained: ssh ip, ssh port, username, bash command
 
-# Trigger blog backup for blog*.dennyzhang.com
-172.17.0.5:22:root:/opt/devops/backup_wp_mysql.sh
-www.dennyzhang.com:2702:ubuntu:/opt/devops/backup_wp_mysql.sh
-
-# Remove old Gitlab bacukpset
-172.17.0.4:22:root:find /var/opt/gitlab/backups/ -name &quot;*.tar&quot; -mtime +7 -and -not -type d -delete
-
 # Remove old JIR backupset
 172.17.0.3:22:root:find /var/atlassian/application-data/jira/export/ -name &quot;*.zip&quot; -mtime +7 -and -not -type d -delete
 
 # Remove old Confluence backupset
 172.17.0.3:22:root:find /var/atlassian/application-data/confluence/backups/ -name &quot;*.zip&quot; -mtime +7 -and -not -type d -delete
-
-# Trigger Gitlab backup
-172.17.0.4:22:root:gitlab-rake gitlab:backup:create
 
 # Remove old remote backup older than 30 days
 104.236.159.226:22:root:find /data/backup/denny_demo -type f -mtime +30 -and -not -type d -delete
