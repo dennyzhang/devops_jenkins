@@ -104,7 +104,7 @@ function download_script() {
 ################################################################################
 download_file=&quot;jenkins/collect_files.sh&quot;
 download_script &quot;$download_file&quot;
-bash -ex &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;</command>
+bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
