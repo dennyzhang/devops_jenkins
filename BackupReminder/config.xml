@@ -22,9 +22,8 @@
         <hudson.model.TextParameterDefinition>
           <name>text_msg</name>
           <description></description>
-          <defaultValue>@Denny Do monthly backup
+          <defaultValue>@Denny Perform monthly backup
 
-- Check file size of generated backupset: Confluence/JIRA/Gitlab
 - Create tag for critical git repos</defaultValue>
         </hudson.model.TextParameterDefinition>
       </parameterDefinitions>
@@ -51,7 +50,7 @@ curl $hook_url \
   </builders>
   <publishers/>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6.2"/>
     <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
   </buildWrappers>
 </project>

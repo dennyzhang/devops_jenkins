@@ -97,26 +97,9 @@ bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;
 </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
-      <teamDomain></teamDomain>
-      <authToken></authToken>
-      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
-      <room></room>
-      <startNotification>false</startNotification>
-      <notifySuccess>false</notifySuccess>
-      <notifyAborted>false</notifyAborted>
-      <notifyNotBuilt>false</notifyNotBuilt>
-      <notifyUnstable>true</notifyUnstable>
-      <notifyFailure>true</notifyFailure>
-      <notifyBackToNormal>true</notifyBackToNormal>
-      <notifyRepeatedFailure>false</notifyRepeatedFailure>
-      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
-      <bearychatCustomMessage></bearychatCustomMessage>
-    </jenkins.plugins.bearychat.BearychatNotifier>
-  </publishers>
+  <publishers/>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6.2"/>
     <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
   </buildWrappers>
 </project>
