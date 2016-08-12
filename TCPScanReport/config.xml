@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>nmap TCP port scan to detect security hole</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.TextParameterDefinition>
+          <name>server_list</name>
+          <description></description>
+          <defaultValue>192.168.0.104
+192.168.0.103</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>white_list</name>
+          <description></description>
+          <defaultValue>*:22
+*:80
+*:443
+*:18080
+192.168.0.104:48080
+</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>extra_port_list</name>
+          <description></description>
+          <defaultValue>9200-9500
+8091-8100
+18080
+18000</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>@daily</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+curl -o /tmp/tcp_port_scan.py https://raw.githubusercontent.com/DennyZhang/devops_public/tag_v2/python/tcp_port_scan/tcp_port_scan.py
+
+echo &quot;$server_list&quot; &gt; &quot;/tmp/server_list_${JOB_NAME}&quot;
+echo &quot;$white_list&quot; &gt; &quot;/tmp/white_list_${JOB_NAME}&quot;
+echo &quot;$extra_port_list&quot; &gt; &quot;/tmp/extra_port_list_${JOB_NAME}&quot;
+
+set -x
+python /tmp/tcp_port_scan.py --server_list_file &quot;/tmp/server_list_${JOB_NAME}&quot; \
+--white_list_file &quot;/tmp/white_list_${JOB_NAME}&quot; \
+--extra_port_list_file &quot;/tmp/extra_port_list_${JOB_NAME}&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6.2"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</project>

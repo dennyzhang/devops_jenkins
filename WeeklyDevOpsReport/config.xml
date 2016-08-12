@@ -39,7 +39,7 @@
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
@@ -76,26 +76,9 @@ curl $bearychat_hook_url \
 </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
-      <teamDomain></teamDomain>
-      <authToken></authToken>
-      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
-      <room></room>
-      <startNotification>false</startNotification>
-      <notifySuccess>false</notifySuccess>
-      <notifyAborted>false</notifyAborted>
-      <notifyNotBuilt>false</notifyNotBuilt>
-      <notifyUnstable>false</notifyUnstable>
-      <notifyFailure>true</notifyFailure>
-      <notifyBackToNormal>false</notifyBackToNormal>
-      <notifyRepeatedFailure>false</notifyRepeatedFailure>
-      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
-      <bearychatCustomMessage></bearychatCustomMessage>
-    </jenkins.plugins.bearychat.BearychatNotifier>
-  </publishers>
+  <publishers/>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6.2"/>
     <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
   </buildWrappers>
 </project>
