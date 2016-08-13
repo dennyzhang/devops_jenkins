@@ -27,6 +27,13 @@
     end
 end
 
+# ping check
+[&quot;www.github.com&quot;].each do |item|
+  describe command(&quot;ping -c3 #{item}&quot;) do
+     its(:exit_status) { should eq 0 }
+  end
+end
+
 # # Check anonymous http links
 # %w(
 #    http://www.bing.com
