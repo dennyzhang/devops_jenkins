@@ -18,19 +18,9 @@
           <name>server_list</name>
           <description></description>
           <defaultValue>######## Column Explained:  ssh server ip, ssh port, ssh username
-# Jenkins
 172.17.0.2:22:root
-# Atlassian: JIRA,Confluence;
-172.17.0.3:22:root
-
-# Inhouse server
-172.17.0.1:22:root
-
-# server1
-52.74.151.55:2702:ubuntu
-
-# server2
-52.9.159.178:22:centos</defaultValue>
+172.17.0.1:2702:root
+</defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>file_list</name>
@@ -56,9 +46,6 @@ eval: find /var/atlassian/application-data/jira/export/ -name *.zip  -printf &ap
 /root/.ssh/authorized_keys
 /home/centos/authorized_keys
 /home/ubuntu/authorized_keys
-
-# wiki
-/var/www/oscgc-wiki/data/pages
 
 # general
 /opt/devops/

@@ -16,12 +16,12 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>ssh_server1</name>
-          <description>aliyun: 123.57.240.189:2702:root</description>
+          <description>server_ip, ssh_port, ssh_username</description>
           <defaultValue>172.17.0.1:22:root</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>ssh_server2</name>
-          <description></description>
+          <description>server_ip, ssh_port, ssh_username</description>
           <defaultValue>172.17.0.2:22:root</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.TextParameterDefinition>

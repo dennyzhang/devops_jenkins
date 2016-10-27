@@ -20,7 +20,7 @@ This would be helpful to detect:&#xd;
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>ssh_server</name>
-          <description>aliyun: 123.57.240.189:2702:root</description>
+          <description>ssh_ip, ssh_port, ssh_username</description>
           <defaultValue>172.17.0.1:22:root</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.TextParameterDefinition>

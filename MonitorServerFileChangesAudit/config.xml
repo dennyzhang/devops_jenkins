@@ -20,11 +20,8 @@ Read more: http://www.dennyzhang.com/monitor_filechange/</description>
         <hudson.model.TextParameterDefinition>
           <name>server_list</name>
           <description></description>
-          <defaultValue># aliyun vm
-123.57.240.189:2702
-
-# Inhouse machine
-123.57.240.189:29995</defaultValue>
+          <defaultValue>172.17.0.2:22
+172.17.0.1:2702</defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>file_list</name>

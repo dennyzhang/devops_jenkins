@@ -26,10 +26,7 @@
 172.17.0.3:22:root:find /var/atlassian/application-data/confluence/backups/ -name &quot;*.zip&quot; -mtime +7 -and -not -type d -delete
 
 # Remove old remote backup older than 30 days
-104.236.159.226:22:root:find /data/backup/denny_demo -type f -mtime +30 -and -not -type d -delete
-
-# Trigger blog backup for www.oscgc.com
-www.oscgc.com:22:centos:/opt/devops/backup_wp_mysql.sh
+172.17.0.2:22:root:find /data/backup/denny_demo -type f -mtime +30 -and -not -type d -delete
 </defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>
