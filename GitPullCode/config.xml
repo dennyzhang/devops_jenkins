@@ -19,7 +19,7 @@
           <description></description>
           <defaultValue># devops consultant
 /var/lib/jenkins/code,https://github.com/DennyZhang/devops_public.git,master
-/var/lib/jenkins/code/,git@bitbucket.org:lrpdevops/devops_key_documents.git,master</defaultValue>
+/var/lib/jenkins/code/,https://github.com/DennyZhang/chef_community_cookbooks.git,master</defaultValue>
         </hudson.model.TextParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
