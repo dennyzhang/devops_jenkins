@@ -18,7 +18,7 @@
           <name>test_spec</name>
           <description></description>
           <defaultValue># Check tcp ports in jerkins container
-[&quot;8080&quot;,
+[&quot;18080&quot;,
  # &quot;28000&quot;, 
  # &quot;9000&quot;
 ].each do |port|
