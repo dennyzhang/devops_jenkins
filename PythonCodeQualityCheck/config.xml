@@ -17,9 +17,9 @@
         <hudson.model.TextParameterDefinition>
           <name>git_list</name>
           <description></description>
-          <defaultValue># git@github.com:DennyZhang/chef_community_cookbooks.git,master
-git@github.com:DennyZhang/devops_public.git,master
-git@github.com:DennyZhang/devops_public.git,master
+          <defaultValue># https://github.com/DennyZhang/chef_community_cookbooks.git,master
+https://github.com/DennyZhang/devops_public.git,master
+https://github.com/DennyZhang/devops_public.git,master
 </defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>

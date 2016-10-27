@@ -93,7 +93,7 @@ export START_COMMAND=&quot;docker start longrun-aio&quot;
 export POST_START_COMMAND=&quot;service couchbase-server start; service elasticsearch start; service mdm start; true&quot;
 export PRE_STOP_COMMAND=&quot;service mdm stop; service elasticsearch stop; service couchbase-server start; true&quot;
 export STOP_COMMAND=&quot;docker stop longrun-aio&quot;
-export git_repo_url=&quot;git@github.com:DennyZhang/chef_community_cookbooks.git&quot;
+export git_repo_url=&quot;https://github.com/DennyZhang/chef_community_cookbooks.git&quot;
 export code_dir=&quot;/root/chef/&quot;
 export CODE_SH=&apos;/root/git_update.sh&apos;</defaultValue>
         </hudson.model.TextParameterDefinition>

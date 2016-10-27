@@ -18,7 +18,7 @@
           <name>git_repo_url</name>
           <description>Repo url for chef source code.
 </description>
-          <defaultValue>git@github.com:DennyZhang/chef_community_cookbooks.git</defaultValue>
+          <defaultValue>https://github.com/DennyZhang/chef_community_cookbooks.git</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>branch_name</name>

@@ -19,7 +19,7 @@ Read more: http://www.dennyzhang.com/avoid_toi_communication/</description>
         <hudson.model.StringParameterDefinition>
           <name>git_repo_url</name>
           <description></description>
-          <defaultValue>git@github.com:DennyZhang/chef_community_cookbooks.git</defaultValue>
+          <defaultValue>https://github.com/DennyZhang/chef_community_cookbooks.git</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>branch_name</name>
