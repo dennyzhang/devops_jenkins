@@ -29,9 +29,7 @@ end
 
 # Check anonymous http links
 [# &quot;http://www.dennyzhang.com&quot;, # HTTP repo,
- &quot;http://www.oscgc.com&quot;, # osc portal
- &quot;http://old.oscgc.com&quot;,
- &quot;http://wiki.oscgc.com/doku.php&quot;,
+ &quot;https://www.github.com&quot;,
  ].each do |url|
     describe command(&apos;curl -I -k %s 2&gt;&amp;1&apos; %[url]) do
       its(:stdout) { should match /HTTP\/1.1 200 OK/ }
