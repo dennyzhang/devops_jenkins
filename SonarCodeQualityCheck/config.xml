@@ -17,7 +17,7 @@
         <hudson.model.StringParameterDefinition>
           <name>git_repo_url</name>
           <description>Repo url for source code.</description>
-          <defaultValue>git@github.com:winterbe/java8-tutorial.git</defaultValue>
+          <defaultValue>https://github.com/DennyZhang/java8-tutorial.git</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>branch_name</name>
