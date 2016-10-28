@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>nmap TCP port scan to detect security hole</description>
+  <description>nmap TCP port scan to detect security hole. http://www.dennyzhang.com/nmap_port_scan</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>
