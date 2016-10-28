@@ -17,17 +17,7 @@
         <hudson.model.TextParameterDefinition>
           <name>test_spec</name>
           <description></description>
-          <defaultValue># Check remote tcp port
-[# &quot;124.57.240.190:29995&quot;, # ssh reversel tunnel
-  #&quot;52.74.151.55:29995&quot;, # ssh reversel tunnel
- ].each do |ip_port|
-    (ip, port) = ip_port.split(&apos;:&apos;)
-    describe command(&apos;nc -z -v -w5 %s %s 2&gt;&amp;1&apos; %[ip, port]) do
-      its(:stdout) { should match /Connection to.*succeeded/ }
-    end
-end
-
-# Check anonymous http links
+          <defaultValue># Check anonymous http links
 [# &quot;http://www.dennyzhang.com&quot;, # HTTP repo,
  &quot;https://github.com/&quot;,
  ].each do |url|
@@ -36,6 +26,15 @@ end
     end
 end
 
+# Check remote tcp port
+[# &quot;124.57.240.190:29995&quot;, # ssh reversel tunnel
+  #&quot;52.74.151.55:29995&quot;, # ssh reversel tunnel
+ ].each do |ip_port|
+    (ip, port) = ip_port.split(&apos;:&apos;)
+    describe command(&apos;nc -z -v -w5 %s %s 2&gt;&amp;1&apos; %[ip, port]) do
+      its(:stdout) { should match /Connection to.*succeeded/ }
+    end
+end
 
 # # Check free disk: &gt;=10GB
 # describe command(&quot;[ `ssh root@104.236.159.226 df -h /data | tail -n1 |awk -F&apos; &apos; &apos;{print $4}&apos; | awk -F&apos;G&apos; &apos;{print $1}&apos; | awk -F&apos;.&apos; &apos;{print $1}&apos;` -gt 10 ]&quot;) do
