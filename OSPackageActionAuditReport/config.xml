@@ -19,7 +19,7 @@ Read more: http://www.dennyzhang.com/list_packages_installed/</description>
         <hudson.model.StringParameterDefinition>
           <name>ssh_server</name>
           <description>ssh_ip, ssh_port, ssh_username</description>
-          <defaultValue>172.17.0.2:22:root</defaultValue>
+          <defaultValue>172.17.0.3:22:root</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>env_parameters</name>
