@@ -19,14 +19,8 @@
           <description></description>
           <defaultValue># Columns Explained: ssh ip, ssh port, username, bash command
 
-# Remove old JIR backupset
-172.17.0.3:22:root:find /var/atlassian/application-data/jira/export/ -name &quot;*.zip&quot; -mtime +7 -and -not -type d -delete
-
-# Remove old Confluence backupset
-172.17.0.3:22:root:find /var/atlassian/application-data/confluence/backups/ -name &quot;*.zip&quot; -mtime +7 -and -not -type d -delete
-
 # Remove old remote backup older than 30 days
-172.17.0.2:22:root:find /data/backup/denny_demo -type f -mtime +30 -and -not -type d -delete
+172.17.0.3:22:root:find /tmp -type f -mtime +30 -and -not -type d -delete
 </defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>
