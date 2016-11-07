@@ -64,7 +64,7 @@ function download_script() {
 ################################################################################
 download_file=&quot;jenkins/run_command_on_servers.sh&quot;
 download_script &quot;$download_file&quot;
-sudo bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;
 </command>
     </hudson.tasks.Shell>
   </builders>
