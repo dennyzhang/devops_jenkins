@@ -17,7 +17,7 @@
         <hudson.model.StringParameterDefinition>
           <name>jenkins_job</name>
           <description></description>
-          <defaultValue>BackupCriticalData</defaultValue>
+          <defaultValue>BuildAllCode</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>job_run_id</name>
