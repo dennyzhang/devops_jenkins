@@ -69,7 +69,7 @@
       <command>#!/bin/bash -ex
 ssh_connect=&quot;ssh -p 2702 root@172.17.0.1&quot;
 
-load_image_command=&quot;docker load -i /root/docker_in_docker/ubuntu_14.04.tar.gz&quot;
+# load_image_command=&quot;docker load -i /root/docker_in_docker/ubuntu_14.04.tar.gz&quot;
 
 # Use Jenkins job name as part of docker container.
 docker_container_name=&quot;docker-images-${JOB_NAME}&quot;
@@ -83,8 +83,10 @@ fi
 # start container for test
 $ssh_connect &quot;docker start $docker_container_name&quot;
 
-echo &quot;Load golden docker images&quot;
-$ssh_connect &quot;$load_image_command&quot;
+if [ -n &quot;$load_image_command&quot; ]; then
+  echo &quot;Load golden docker images&quot;
+  $ssh_connect &quot;$load_image_command&quot;
+fi
 
 if [ -n &quot;$copy_resource_command&quot; ]; then
   echo &quot;Copy resources&quot;
