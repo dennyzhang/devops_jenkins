@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Use docker-in-docker to test docker image build.</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>git_repo_url</name>
+          <description></description>
+          <defaultValue>https://github.com/DennyZhang/devops_docker_image.git</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>build_command</name>
+          <description></description>
+          <defaultValue>python /devops_docker_image/build_image.py</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>copy_resource_command</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>destroy_existing_env</name>
+          <description>When enabled, existing env will be destroyed first before test</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>destroy_after_test</name>
+          <description>Whether to destroy the test env, after docker images build.</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>DOCKER_LIST</name>
+          <description></description>
+          <defaultValue>/devops_docker_image/java/java_v1_0.dockerfile
+/devops_docker_image/jenkins/jenkins_v1.dockerfile
+/devops_docker_image/shadowsock/ss_v1.dockerfile</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <de.pellepelster.jenkins.walldisplay.WallDisplayJobProperty plugin="jenkinswalldisplay@0.6.30"/>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H 10 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -ex
+ssh_connect=&quot;ssh -p 2702 root@172.17.0.1&quot;
+
+load_image_command=&quot;docker load -i /root/docker_in_docker/ubuntu_14.04.tar.gz&quot;
+
+# Use Jenkins job name as part of docker container.
+docker_container_name=&quot;docker-images-${JOB_NAME}&quot;
+
+if $destroy_existing_env; then
+    $ssh_connect &quot;docker stop $docker_container_name; docker rm $docker_container_name; true&quot;
+    $ssh_connect &quot;docker run -t -d --privileged -h mytest --name $docker_container_name  -v /root/docker_in_docker:/root/docker_in_docker totvslabs/docker:v1.0 /usr/bin/dockerd&quot;
+    $ssh_connect &quot;docker exec -t $docker_container_name git clone $git_repo_url&quot;
+fi
+
+# start container for test
+$ssh_connect &quot;docker start $docker_container_name&quot;
+
+echo &quot;Load golden docker images&quot;
+$ssh_connect &quot;$load_image_command&quot;
+
+if [ -n &quot;$copy_resource_command&quot; ]; then
+  echo &quot;Copy resources&quot;
+  $ssh_connect &quot;docker exec -t $docker_container_name $copy_resource_command&quot;
+fi
+
+# pass env
+$ssh_connect &quot;echo \&quot;$DOCKER_LIST\&quot; &gt; /tmp/docker_env.sh&quot;
+$ssh_connect &quot;docker cp /tmp/docker_env.sh $docker_container_name:/tmp/docker_env.sh&quot;
+
+echo &quot;Build docker images&quot;
+$ssh_connect &quot;docker exec -t $docker_container_name $build_command&quot;
+
+
+# Stop container to save resource
+$ssh_connect &quot;docker stop $docker_container_name&quot;
+
+if $destroy_after_test; then
+  echo &quot;Destroy $docker_container_name container&quot;
+  $ssh_connect &quot;docker rm $docker_container_name&quot;
+fi</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.slack.SlackNotifier plugin="slack@2.0.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://injenkins.fluigdata.com:48080/</buildServerUrl>
+      <room></room>
+      <startNotification>false</startNotification>
+      <notifySuccess>false</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>false</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeTestSummary>false</includeTestSummary>
+      <commitInfoChoice>NONE</commitInfoChoice>
+      <includeCustomMessage>false</includeCustomMessage>
+      <customMessage></customMessage>
+    </jenkins.plugins.slack.SlackNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.4"/>
+  </buildWrappers>
+</project>
