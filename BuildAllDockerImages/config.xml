@@ -76,7 +76,7 @@ docker_container_name=&quot;docker-images-${JOB_NAME}&quot;
 
 if $destroy_existing_env; then
     $ssh_connect &quot;docker stop $docker_container_name; docker rm $docker_container_name; true&quot;
-    $ssh_connect &quot;docker run -t -d --privileged -h mytest --name $docker_container_name  -v /root/docker_in_docker:/root/docker_in_docker totvslabs/docker:v1.0 /usr/bin/dockerd&quot;
+    $ssh_connect &quot;docker run -t -d --privileged -h mytest --name $docker_container_name  -v /root/docker_in_docker:/root/docker_in_docker denny/docker:v1.0 /usr/bin/dockerd&quot;
     $ssh_connect &quot;docker exec -t $docker_container_name git clone $git_repo_url&quot;
 fi
 
