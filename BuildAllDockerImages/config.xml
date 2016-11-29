@@ -35,12 +35,12 @@
         <hudson.model.BooleanParameterDefinition>
           <name>destroy_existing_env</name>
           <description>When enabled, existing env will be destroyed first before test</description>
-          <defaultValue>false</defaultValue>
+          <defaultValue>true</defaultValue>
         </hudson.model.BooleanParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>destroy_after_test</name>
           <description>Whether to destroy the test env, after docker images build.</description>
-          <defaultValue>false</defaultValue>
+          <defaultValue>true</defaultValue>
         </hudson.model.BooleanParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>DOCKER_LIST</name>
