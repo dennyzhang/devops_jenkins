@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Cost BreakDown For all Running DigitalOcean Droplets In Slack</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>SLACK_CHANNEL</name>
+          <description></description>
+          <defaultValue>YOUR_SLACK_CHANNEL</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H 0 * * 0</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v2&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_public&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_public/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/jenkins_scripts/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_file=&quot;report/digitalocean_cost_slack_report.sh&quot;
+download_script &quot;$download_file&quot;
+
+export DIGITALOCEAN_TOKEN=YOUR_DIGITALOCEAN_TOKEN
+export SLACK_TOKEN=YOUR_SLACK_TOKEN
+
+bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+  </publishers>
+  <buildWrappers/>
+</project>
