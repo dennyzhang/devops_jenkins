@@ -3,7 +3,7 @@
   <actions/>
   <description>List recent actions of packages installation or removal for a given server&#xd;
 &#xd;
-Read more: http://www.dennyzhang.com/list_packages_installed/</description>
+Read more: https://www.dennyzhang.com/list_packages_installed/</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>

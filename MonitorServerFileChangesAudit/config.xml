@@ -4,7 +4,7 @@
   <description>Monitor servers for key files change. Once they&apos;re changed, send out alerts. &#xd;
 This helps us to detect malicious or unexpected changes.&#xd;
 &#xd;
-Read more: http://www.dennyzhang.com/monitor_filechange/</description>
+Read more: https://www.dennyzhang.com/monitor_filechange/</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>

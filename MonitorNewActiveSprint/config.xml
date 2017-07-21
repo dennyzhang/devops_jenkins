@@ -3,7 +3,7 @@
   <actions/>
   <description>Detect whether active sprint is changed&#xd;
 &#xd;
-Read more: http://www.dennyzhang.com/slack_activesprint/</description>
+Read more: https://www.dennyzhang.com/slack_activesprint/</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>

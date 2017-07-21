@@ -1,3 +1,3 @@
 Jenkins Jobs To Perform Routine DevOps Tasks Easily
 
-Check this to learn more: http://www.dennyzhang.com/tag/jenkins/
+Check this to learn more: https://www.dennyzhang.com/tag/jenkins/

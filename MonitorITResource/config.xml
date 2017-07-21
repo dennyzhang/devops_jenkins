@@ -18,7 +18,7 @@
           <name>test_spec</name>
           <description></description>
           <defaultValue># Check anonymous http links
-[# &quot;http://www.dennyzhang.com&quot;, # HTTP repo,
+[# &quot;https://www.dennyzhang.com&quot;, # HTTP repo,
  &quot;https://github.com/&quot;,
  ].each do |url|
     describe command(&apos;curl -I -k %s 2&gt;&amp;1&apos; %[url]) do
