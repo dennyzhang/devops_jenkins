@@ -2,7 +2,10 @@
 <project>
   <actions/>
   <description>Monitor Git repo to interested file changes.&#xd;
-&#xd;
+  &#xd;
+
+Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorGitFileChanges/config.xml
+
 Read more: https://www.dennyzhang.com/avoid_toi_communication/</description>
   <keepDependencies>false</keepDependencies>
   <properties>

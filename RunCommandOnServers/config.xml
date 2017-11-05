@@ -3,7 +3,9 @@
   <actions/>
   <description>Run remote commands on multiple servers by ssh&#xd;
 &#xd;
-https://www.dennyzhang.com/jenkins_run_ssh</description>
+Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/RunCommandOnServers/config.xml
+
+Read more: https://www.dennyzhang.com/jenkins_run_ssh</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>

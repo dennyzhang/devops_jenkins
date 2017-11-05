@@ -3,6 +3,9 @@
   <actions/>
   <description>List recent actions of packages installation or removal for a given server&#xd;
 &#xd;
+
+Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/OSPackageActionAuditReport/config.xml
+
 Read more: https://www.dennyzhang.com/list_packages_installed/</description>
   <keepDependencies>false</keepDependencies>
   <properties>

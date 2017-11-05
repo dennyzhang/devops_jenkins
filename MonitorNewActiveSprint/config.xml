@@ -2,7 +2,10 @@
 <project>
   <actions/>
   <description>Detect whether active sprint is changed&#xd;
-&#xd;
+  &#xd;
+
+Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorNewActiveSprint/config.xml
+
 Read more: https://www.dennyzhang.com/slack_activesprint/</description>
   <keepDependencies>false</keepDependencies>
   <properties>
