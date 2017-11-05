@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description></description>
+  <description>
+Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorGitFileChanges/config.xml
+
+Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/MonitorGitFileChanges.png
+
+</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>

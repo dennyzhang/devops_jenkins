@@ -5,6 +5,8 @@
 
 Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/NetworkTCPScanAuditReport/config.xml
 
+Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/NetworkTCPScanAuditReport.png
+
 Read more: https://www.dennyzhang.com/nmap_port_scan</description>
   <keepDependencies>false</keepDependencies>
   <properties>

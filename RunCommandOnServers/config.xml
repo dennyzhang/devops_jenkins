@@ -5,6 +5,8 @@
 &#xd;
 Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/RunCommandOnServers/config.xml
 
+Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/RunCommandOnServers.png
+
 Read more: https://www.dennyzhang.com/jenkins_run_ssh</description>
   <keepDependencies>false</keepDependencies>
   <properties>

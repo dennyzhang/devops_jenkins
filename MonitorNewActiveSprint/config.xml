@@ -6,6 +6,8 @@
 
 Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorNewActiveSprint/config.xml
 
+Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/MonitorNewActiveSprint.png
+
 Read more: https://www.dennyzhang.com/slack_activesprint/</description>
   <keepDependencies>false</keepDependencies>
   <properties>

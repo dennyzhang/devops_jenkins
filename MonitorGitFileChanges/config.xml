@@ -6,6 +6,8 @@
 
 Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorGitFileChanges/config.xml
 
+Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/MonitorGitFileChanges.png
+
 Read more: https://www.dennyzhang.com/avoid_toi_communication/</description>
   <keepDependencies>false</keepDependencies>
   <properties>
