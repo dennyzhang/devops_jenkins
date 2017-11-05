@@ -25,6 +25,7 @@ Read more: https://www.dennyzhang.com/jenkins_run_ssh</description>
           <name>server_list</name>
           <description></description>
           <defaultValue>172.17.0.3
+172.17.0.4
 </defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>
