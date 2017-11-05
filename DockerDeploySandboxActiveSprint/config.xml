@@ -3,7 +3,7 @@
   <actions/>
   <description>Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/DockerDeploySandboxActiveSprint/config.xml
 
-Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/BashCodeQualityCheck.png
+Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/DockerDeploySandboxActiveSprint.png
 
 https://www.dennyzhang.com/sandbox_setup</description>
   <keepDependencies>false</keepDependencies>

@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Monitor Git repo to interested file changes.&#xd;
-  &#xd;
+  <description>Monitor Git repo to interested file changes.
 
 Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorGitFileChanges/config.xml
 

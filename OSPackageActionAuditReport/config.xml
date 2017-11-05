@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>List recent actions of packages installation or removal for a given server&#xd;
-&#xd;
+  <description>List recent actions of packages installation or removal for a given server
 
 Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/OSPackageActionAuditReport/config.xml
+
+Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/OSPackageActionAuditReport.png
 
 Read more: https://www.dennyzhang.com/list_packages_installed/</description>
   <keepDependencies>false</keepDependencies>

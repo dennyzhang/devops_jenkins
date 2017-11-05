@@ -2,9 +2,9 @@
 <project>
   <actions/>
   <description>
-Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorGitFileChanges/config.xml
+Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorITResource/config.xml
 
-Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/MonitorGitFileChanges.png
+Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/MonitorITResource.png
 
 </description>
   <keepDependencies>false</keepDependencies>
