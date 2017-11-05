@@ -5,3 +5,5 @@ timestamps.SHA-1
 changelog.xml
 log
 build.xml
+lastStable
+lastSuccessful
