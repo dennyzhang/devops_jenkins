@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Detect whether active sprint is changed&#xd;
-  &#xd;
+  <description>Detect whether active sprint is changed
 
 Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorNewActiveSprint/config.xml
 

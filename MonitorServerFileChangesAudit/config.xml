@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Monitor servers for key files change. Once they&apos;re changed, send out alerts. &#xd;
-This helps us to detect malicious or unexpected changes.&#xd;
-&#xd;
+  <description>Monitor servers for key files change. Once they are changed, send out alerts. This helps us to detect malicious or unexpected changes.
 
 Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/MonitorServerFileChangesAudit/config.xml
 
