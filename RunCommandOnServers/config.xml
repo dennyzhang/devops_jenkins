@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Run remote commands on multiple servers by ssh
-
-https://www.dennyzhang.com/parallel_run_commands</description>
+  <description>Run remote commands on multiple servers by ssh&#xd;
+&#xd;
+https://www.dennyzhang.com/jenkins_run_ssh</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>
@@ -14,6 +14,9 @@ https://www.dennyzhang.com/parallel_run_commands</description>
         <artifactNumToKeep>-1</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.TextParameterDefinition>
@@ -68,26 +71,8 @@ bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;
 </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
-      <teamDomain></teamDomain>
-      <authToken></authToken>
-      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
-      <room></room>
-      <startNotification>false</startNotification>
-      <notifySuccess>false</notifySuccess>
-      <notifyAborted>false</notifyAborted>
-      <notifyNotBuilt>false</notifyNotBuilt>
-      <notifyUnstable>true</notifyUnstable>
-      <notifyFailure>true</notifyFailure>
-      <notifyBackToNormal>true</notifyBackToNormal>
-      <notifyRepeatedFailure>false</notifyRepeatedFailure>
-      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
-      <bearychatCustomMessage></bearychatCustomMessage>
-    </jenkins.plugins.bearychat.BearychatNotifier>
-  </publishers>
+  <publishers/>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
-    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.8"/>
   </buildWrappers>
 </project>

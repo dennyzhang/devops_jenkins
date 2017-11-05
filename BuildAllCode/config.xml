@@ -91,7 +91,7 @@ bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;
     <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
       <teamDomain></teamDomain>
       <authToken></authToken>
-      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
+      <buildServerUrl>http://jenkins.dennyzhang.com:18080/</buildServerUrl>
       <room></room>
       <startNotification>false</startNotification>
       <notifySuccess>false</notifySuccess>

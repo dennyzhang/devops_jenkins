@@ -1,2 +1,7 @@
 builds
 nextBuildNumber
+timestamps
+timestamps.SHA-1
+changelog.xml
+log
+build.xml

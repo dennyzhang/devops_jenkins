@@ -12,6 +12,9 @@
         <artifactNumToKeep>-1</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.TextParameterDefinition>
@@ -53,7 +56,7 @@ eval: find /var/atlassian/application-data/jira/export/ -name *.zip  -printf &ap
         <hudson.model.TextParameterDefinition>
           <name>env_parameters</name>
           <description></description>
-          <defaultValue># export SERVER_REMOTE_COPY=&quot;104.236.159.226:22:root:/data/backup/denny_demo&quot;</defaultValue>
+          <defaultValue>export SERVER_REMOTE_COPY=&quot;backup.dennyzhang.com:root:/data/backup/denny_demo&quot;</defaultValue>
         </hudson.model.TextParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -63,6 +66,7 @@ eval: find /var/atlassian/application-data/jira/export/ -name *.zip  -printf &ap
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
@@ -88,26 +92,8 @@ download_script &quot;$download_file&quot;
 bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
-      <teamDomain></teamDomain>
-      <authToken></authToken>
-      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
-      <room></room>
-      <startNotification>false</startNotification>
-      <notifySuccess>false</notifySuccess>
-      <notifyAborted>false</notifyAborted>
-      <notifyNotBuilt>false</notifyNotBuilt>
-      <notifyUnstable>true</notifyUnstable>
-      <notifyFailure>true</notifyFailure>
-      <notifyBackToNormal>true</notifyBackToNormal>
-      <notifyRepeatedFailure>false</notifyRepeatedFailure>
-      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
-      <bearychatCustomMessage></bearychatCustomMessage>
-    </jenkins.plugins.bearychat.BearychatNotifier>
-  </publishers>
+  <publishers/>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
-    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.8"/>
   </buildWrappers>
 </project>
