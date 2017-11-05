@@ -5,7 +5,7 @@
 
 Job Screenshot: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/images_screenshot/BashCodeQualityCheck.png
 
-https://www.dennyzhang.com/shellcheck/</description>
+Read more: https://www.dennyzhang.com/shellcheck/</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>
