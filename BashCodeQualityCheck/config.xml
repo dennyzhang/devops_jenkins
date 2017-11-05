@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>https://www.dennyzhang.com/shellcheck/</description>
+  <description>Job Configuration: https://github.com/DennyZhang/devops_jenkins/blob/tag_v6/BashCodeQualityCheck/config.xml
+
+https://www.dennyzhang.com/shellcheck/</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>
