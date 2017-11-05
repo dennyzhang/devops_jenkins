@@ -8,4 +8,8 @@ Jenkins Jobs To Perform Routine DevOps Tasks Easily
 
 Check this to learn more: https://www.dennyzhang.com/tag/jenkins
 
+```
+git clone https://github.com/DennyZhang/devops_jenkins.git
+```
+
 Code is licensed under [MIT License](https://www.dennyzhang.com/wp-content/mit_license.txt).
